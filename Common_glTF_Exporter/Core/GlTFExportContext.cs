@@ -8,8 +8,6 @@ using Common_glTF_Exporter.Transform;
 using Common_glTF_Exporter.Utils;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.EportUtils;
-using System.Windows.Media.Media3D;
-using System.Windows.Controls;
 
 namespace Common_glTF_Exporter.Core
 {

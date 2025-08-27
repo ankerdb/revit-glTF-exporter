@@ -3,20 +3,6 @@ using Autodesk.Revit.DB;
 
 namespace Common_glTF_Exporter
 {
-    public enum CompressionEnum
-    {
-        None,
-        Meshopt,
-        Draco,
-        ZIP,
-    }
-
-    public enum FormatEnum
-    {
-        gltf,
-        glb,
-    }
-
     public enum MaterialsEnum
     {
         textures,
@@ -27,7 +13,6 @@ namespace Common_glTF_Exporter
     public static class Preferences
     {
         public static MaterialsEnum Materials { get; set; } = MaterialsEnum.nonematerials;
-        public static FormatEnum Format { get; set; } = FormatEnum.glb;
         public static bool Normals { get; set; } = false;
         public static bool Levels { get; set; } = false;
         public static bool Lights { get; set; } = false;

@@ -42,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Materials\TextureLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GlbComponents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Links.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\LoadContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\MaterialCacheDTO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Payload.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\RevitGridParametersObject.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\CompUnits.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DirectoryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ExportLog.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Hyperlink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\MaterialUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GeometryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GLTFBinaryDataUtils.cs" />
@@ -94,8 +92,5 @@
     <Content Include="$(MSBuildThisFileDirectory)Leia_glTF_Exporter.addin">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)ViewModel\" />
   </ItemGroup>
 </Project>
