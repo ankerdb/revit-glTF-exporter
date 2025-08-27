@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Common_glTF_Exporter.Core;
-    using Common_glTF_Exporter.Windows.MainWindow;
     using Revit_glTF_Exporter;
 
     /// <summary>
@@ -17,8 +16,7 @@
         /// <param name="doc">Revit document.</param>
         /// <param name="nodes">Nodes.</param>
         /// <param name="rootNode">root node.</param>
-        /// <param name="preferences">preferences. </param>
-        public static void Export(Document doc, ref IndexedDictionary<GLTFNode> nodes, ref GLTFNode rootNode, Preferences preferences)
+        public static void Export(Document doc, ref IndexedDictionary<GLTFNode> nodes, ref GLTFNode rootNode)
         {
             using (FilteredElementCollector col = new FilteredElementCollector(doc).OfClass(typeof(Grid)))
             {
@@ -49,7 +47,7 @@
                     xtras.gridParameters = grid;
                     xtras.uniqueId = g.UniqueId;
 
-                    if (preferences.properties)
+                    if (Preferences.Properties)
                     {
                         xtras.parameters = Util.GetElementParameters(g, true);
                     }

@@ -5,13 +5,12 @@ using System.Text;
 using Autodesk.Revit.DB.Visual;
 using Common_glTF_Exporter.Core;
 using Common_glTF_Exporter.Model;
-using Common_glTF_Exporter.Windows.MainWindow;
 
 namespace Common_glTF_Exporter.Export
 {
     public static class GlbBinInfo
     {
-        public static byte[] Get(List<GLTFBinaryData> binaryFileData, Preferences preferences)
+        public static byte[] Get(List<GLTFBinaryData> binaryFileData)
         {
             List<byte> binData = new List<byte>();
 
@@ -23,7 +22,7 @@ namespace Common_glTF_Exporter.Export
                     binData.AddRange(vertex);
                 }
 
-                if (preferences.normals)
+                if (Preferences.Normals)
                 {
                     foreach (var normal in bin.normalBuffer)
                     {
@@ -32,7 +31,7 @@ namespace Common_glTF_Exporter.Export
                     }
                 }
 
-                if (preferences.materials == MaterialsEnum.textures)
+                if (Preferences.Materials == MaterialsEnum.textures)
                 {
                     if (bin.byteData != null)
                     {
@@ -49,7 +48,7 @@ namespace Common_glTF_Exporter.Export
                     }
                 }
 
-                if (preferences.batchId)
+                if (Preferences.BatchId)
                 {
                     foreach (var batchId in bin.batchIdBuffer)
                     {

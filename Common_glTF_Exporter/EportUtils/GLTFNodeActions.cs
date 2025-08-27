@@ -4,19 +4,19 @@ using System.Text;
 using Autodesk.Revit.DB;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
+using Common_glTF_Exporter.Utils;
 
 namespace Common_glTF_Exporter.EportUtils
 {
     public static class GLTFNodeActions
     {
-        public static GLTFNode CreateGLTFNodeFromElement(Element currentElement, Preferences preferences)
+        public static GLTFNode CreateGLTFNodeFromElement(Element currentElement)
         {
             // create a new node for the element
             GLTFNode newNode = new GLTFNode();
             newNode.name = Util.ElementDescription(currentElement);
 
-            if (preferences.properties)
+            if (Preferences.Properties)
             {
                 // get the extras for this element
                 GLTFExtras extras = new GLTFExtras
@@ -30,12 +30,7 @@ namespace Common_glTF_Exporter.EportUtils
                     extras.elementCategory = currentElement.Category.Name;
                 }
 
-#if REVIT2024 || REVIT2025 || REVIT2026
-                extras.elementId = currentElement.Id.Value;
-#else
-                extras.elementId = currentElement.Id.IntegerValue;
-#endif
-
+                extras.elementId = CompUnits.GetIdValue(currentElement.Id);
                 newNode.extras = extras;
             }
 

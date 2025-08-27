@@ -12,20 +12,20 @@ namespace Common_glTF_Exporter.Utils
     {
         public static List<string> GetAdditionalRenderAppearancePaths()
         {
-            string revitVersion = ExternalApplication.RevitCollectorService.GetApplication().VersionNumber;
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             string iniDir = Path.Combine(
                 appData,
                 "Autodesk",
                 "Revit",
-                $"Autodesk Revit {revitVersion}"
+                $"Autodesk Revit {Exporter.RevitVersion}"
             );
 
             string iniPath = Path.Combine(iniDir, "Revit.ini");
+            var absolutePaths = new List<string>();
 
             if (!File.Exists(iniPath))
-                return null;
+                return absolutePaths;
 
             foreach (var line in File.ReadAllLines(iniPath))
             {
@@ -34,7 +34,6 @@ namespace Common_glTF_Exporter.Utils
                     string pathString = line.Substring("AdditionalRenderAppearancePaths=".Length);
                     var paths = pathString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    var absolutePaths = new List<string>();
                     string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
                     foreach (var p in paths)
@@ -58,7 +57,7 @@ namespace Common_glTF_Exporter.Utils
                 }
             }
 
-            return null;
+            return absolutePaths;
         }
     }
 }

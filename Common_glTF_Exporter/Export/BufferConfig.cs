@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
 
 namespace Common_glTF_Exporter.Export
 {
     public static class BufferConfig
     {
-        const string BIN = ".bin";
-
-        public static void Run(List<GLTFBufferView> bufferViews, List<GLTFBuffer> buffers,
-            Preferences preferences)
+        public static void Run(List<GLTFBufferView> bufferViews, List<GLTFBuffer> buffers)
         {
             int bytePosition = 0;
             int currentBuffer = 0;
@@ -33,12 +29,6 @@ namespace Common_glTF_Exporter.Export
             }
 
             GLTFBuffer buffer = new GLTFBuffer();
-
-            if (preferences.format == FormatEnum.gltf)
-            {
-                string bufferUri = string.Concat(preferences.fileName, BIN);
-                buffer.uri = bufferUri;
-            }
 
             buffer.byteLength = bytePosition;
             buffers.Clear();

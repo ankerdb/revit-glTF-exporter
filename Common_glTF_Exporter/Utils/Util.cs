@@ -6,7 +6,6 @@ namespace Revit_glTF_Exporter
     using System.Text;
     using Autodesk.Revit.DB;
     using Common_glTF_Exporter;
-    using Common_glTF_Exporter.Windows.MainWindow;
 
     public class Util
     {

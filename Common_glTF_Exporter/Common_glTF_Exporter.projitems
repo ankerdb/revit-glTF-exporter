@@ -28,16 +28,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\ElementValidations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\GLTFNodeActions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exporter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Export\BinFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\BufferConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Export\Draco.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\FileExport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbBinInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbJsonInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbHeaderInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GltfJson.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Export\MeshOpt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\AssetProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\BitmapsUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\MaterialProperties.cs" />
@@ -49,10 +46,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\MaterialCacheDTO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Payload.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\RevitGridParametersObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Export\Compression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\RevitGrids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\RevitMaterials.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Export\ZIP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GLTF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GlTFExportContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeometryDataObject.cs" />
@@ -61,6 +56,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Preferences.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelRotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelScale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\CompUnits.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DirectoryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ExportLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hyperlink.cs" />
@@ -68,7 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GeometryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GLTFBinaryDataUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RevitIniReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelTraslation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelTranslation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UnitObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FixedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FixedObjects.cs" />
@@ -80,8 +76,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GLTFExportUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Collectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Util.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\UnitsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)PackageContents.xml" />
@@ -102,6 +96,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Service\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModel\" />
   </ItemGroup>
 </Project>

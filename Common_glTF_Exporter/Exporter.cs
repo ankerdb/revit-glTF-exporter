@@ -8,11 +8,16 @@ using Common_glTF_Exporter.Core;
 
 namespace Common_glTF_Exporter
 {
-    public class Exporter
+    public static class Exporter
     {
-        public void Export(Document doc)
+        public static Document CurrentDocument;
+        public static List<string> TexturePaths = new List<string>();
+        public static string RevitVersion = string.Empty;
+        public static void Export(Document doc, string revitVersion)
         {
             ExportLog.StartLog();
+            CurrentDocument = doc;
+            RevitVersion = revitVersion;
             Autodesk.Revit.DB.View view = doc.ActiveView;
 
             if (view == null || view.GetType().Name != "View3D")
@@ -20,7 +25,7 @@ namespace Common_glTF_Exporter
                 ExportLog.WriteException(new Exception("Wrong View, You must be in a 3D view to export"));
                 return;
             }
-            var texturePaths = TextureLocation.GetPaths();
+            TexturePaths = TextureLocation.GetPaths();
 
             List<Element> elementsInView = Collectors.AllVisibleElementsByView(doc, view);
 

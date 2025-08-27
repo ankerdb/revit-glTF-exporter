@@ -3,7 +3,6 @@ using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.Materials;
 using Common_glTF_Exporter.Model;
@@ -22,8 +21,7 @@ namespace Common_glTF_Exporter.Export
         /// <summary>
         /// Export Revit materials.
         /// </summary>
-        public static GLTFMaterial Export(MaterialNode node,
-            Preferences preferences, Document doc)
+        public static GLTFMaterial Export(MaterialNode node, Document doc)
         {
             GLTFMaterial gl_mat = new GLTFMaterial();
             float opacity = ONEINTVALUE - (float)node.Transparency;
@@ -41,7 +39,7 @@ namespace Common_glTF_Exporter.Export
                 GLTFPBR pbr = new GLTFPBR();
                 MaterialProperties.SetProperties(node, opacity, ref pbr, ref gl_mat);
 
-                if (material != null && preferences.materials == MaterialsEnum.textures)
+                if (material != null && Preferences.Materials == MaterialsEnum.textures)
                 {
                     MaterialTextures.SetMaterialTextures(material, gl_mat, doc, opacity);
                 }

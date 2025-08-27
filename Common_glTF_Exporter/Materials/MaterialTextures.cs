@@ -3,7 +3,6 @@ using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.Materials;
 using Common_glTF_Exporter.Model;
