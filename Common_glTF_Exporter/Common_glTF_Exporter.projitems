@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\IndexedDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\ElementValidations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\GLTFNodeActions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\BinFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\BufferConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\Draco.cs" />
@@ -52,55 +53,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Export\RevitGrids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\RevitMaterials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\ZIP.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExternalApplication.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExternalCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GLTF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GlTFExportContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeometryDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\PointIntObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\VertexLookupIntObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Service\RevitCollectorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Service\UIApplicationExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Preferences.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelRotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelScale.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Analytics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DirectoryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ExportLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hyperlink.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\LogConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\MaterialUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GeometryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GLTFBinaryDataUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RevitIniReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\SettingsConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Theme.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version\DownloadFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version\InternetConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version\LatestVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version\RunLocalFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version\VersionValidate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\AboutUsWindow.xaml.cs">
-      <DependentUpon>AboutUsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\FeedbackWindow.xaml.cs">
-      <DependentUpon>FeedbackWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow\LabelVersion.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow\ComboUnits.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelTraslation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow\Preferences.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow\Settings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow\UpdateForm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MessageWindow.xaml.cs">
-      <DependentUpon>MessageWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\ProgressBarWindow.xaml.cs">
-      <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Model\UnitObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\Resources.xaml.cs">
-      <DependentUpon>Resources.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Model\FixedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FixedObjects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\IObject.cs" />
@@ -109,18 +78,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\MovableObjects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GLTFExportUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Collectors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\FilesHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Util.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ProgressBarWindowViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\UnitsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\VersionWindow.xaml.cs">
-      <DependentUpon>VersionWindow.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)PackageContents.xml" />
@@ -141,32 +102,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\AboutUsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\FeedbackWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\MessageWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\ProgressBarWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Windows\VersionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Folder Include="$(MSBuildThisFileDirectory)Service\" />
   </ItemGroup>
 </Project>
