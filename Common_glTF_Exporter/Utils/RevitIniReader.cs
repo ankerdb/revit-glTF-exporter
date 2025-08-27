@@ -18,7 +18,7 @@ namespace Common_glTF_Exporter.Utils
                 appData,
                 "Autodesk",
                 "Revit",
-                $"Autodesk Revit {Exporter.RevitVersion}"
+                $"Autodesk Revit {CompUnits.RevitVersion}"
             );
 
             string iniPath = Path.Combine(iniDir, "Revit.ini");

@@ -12,12 +12,10 @@ namespace Common_glTF_Exporter
     {
         public static Document CurrentDocument;
         public static List<string> TexturePaths = new List<string>();
-        public static string RevitVersion = string.Empty;
-        public static void Export(Document doc, string revitVersion)
+        public static void Export(Document doc)
         {
             ExportLog.StartLog();
             CurrentDocument = doc;
-            RevitVersion = revitVersion;
             Autodesk.Revit.DB.View view = doc.ActiveView;
 
             if (view == null || view.GetType().Name != "View3D")

@@ -8,12 +8,18 @@ namespace Common_glTF_Exporter.Utils
 {
     internal static class CompUnits
     {
-#if REVIT2025 || REVIT2026
-    public static long GetIdValue(ElementId id) => id?.Value ?? -1L;
-    public static ElementId IdByLong(long id) => new ElementId(id);
+#if REVIT2026
+        public static string RevitVersion => "2026";
+        public static long GetIdValue(ElementId id) => id?.Value ?? -1L;
+        public static ElementId IdByLong(long id) => new ElementId(id);
+
+#elif REVIT2025
+        public static string RevitVersion => "2025";
+        public static long GetIdValue(ElementId id) => id?.Value ?? -1L;
+        public static ElementId IdByLong(long id) => new ElementId(id);
 
 #elif REVIT2024
-
+        public static string RevitVersion => "2024";
         public static long GetIdValue(ElementId id)
         {
             if (id == null)
@@ -41,6 +47,7 @@ namespace Common_glTF_Exporter.Utils
         }
 
 #elif REVIT2023
+        public static string RevitVersion => "2023";
         public static long GetIdValue(ElementId id)
         {
             if (id == null)
