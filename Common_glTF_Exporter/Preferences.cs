@@ -36,7 +36,7 @@ namespace Common_glTF_Exporter
         public static bool Properties { get; set; } = false;
         public static bool RelocateTo0 { get; set; } = false;
         public static bool FlipAxis { get; set; } = true;
-        public static string Units { get; set; } = UnitTypeId.Meters.TypeId.ToString();
+        public static ForgeTypeId Units { get; set; } = UnitTypeId.Meters;
         public static CompressionEnum Compression { get; set; } = CompressionEnum.None;
         public static string Path { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public static string FileName { get; set; } = "3dExport";

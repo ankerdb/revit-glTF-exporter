@@ -27,8 +27,6 @@ namespace Common_glTF_Exporter.Core
 
         public bool isLink { get; private set; }
 
-        private Preferences preferences;
-
         private Document currentDocument;
         private Autodesk.Revit.DB.View currentView;
         private GLTFNode currentNode;
@@ -74,10 +72,10 @@ namespace Common_glTF_Exporter.Core
             }
         }
 
-        public GLTFExportContext(Document doc)
+        public GLTFExportContext(Document doc, Autodesk.Revit.DB.View view)
         {
             currentDocument = doc;
-            currentView = doc.ActiveView;
+            currentView = view;
         }
 
         /// <summary>
@@ -87,7 +85,6 @@ namespace Common_glTF_Exporter.Core
         public bool Start()
         {
             ExportLog.Write("Export Started");
-            preferences = Common_glTF_Exporter.Windows.MainWindow.Settings.GetInfo();
 
             cancelation = false;
             transformStack.Push(Autodesk.Revit.DB.Transform.Identity);
@@ -95,10 +92,10 @@ namespace Common_glTF_Exporter.Core
             // Creation Root Node
             rootNode = new GLTFNode();
             rootNode.name = "rootNode";
-            rootNode.rotation = ModelRotation.Get(preferences.flipAxis);
-            rootNode.scale = ModelScale.Get(preferences);
+            rootNode.rotation = ModelRotation.Get(Preferences.FlipAxis);
+            rootNode.scale = ModelScale.Get();
             rootNode.translation = ModelTraslation.GetPointToRelocate(currentDocument, 
-                rootNode.scale[0], preferences);
+                rootNode.scale[0]);
             rootNode.children = new List<int>();
 
             nodes.AddOrUpdateCurrent("rootNode", rootNode);

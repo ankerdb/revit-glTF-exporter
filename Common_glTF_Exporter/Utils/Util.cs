@@ -5,6 +5,7 @@ namespace Revit_glTF_Exporter
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.DB;
+    using Common_glTF_Exporter;
     using Common_glTF_Exporter.Windows.MainWindow;
 
     public class Util
@@ -69,17 +70,9 @@ namespace Revit_glTF_Exporter
         /// </summary>
         /// <param name="preferences">User preferences.</param>
         /// <returns>Converted value.</returns>
-        public static double ConvertFeetToUnitTypeId(Preferences preferences)
+        public static double ConvertFeetToUnitTypeId()
         {
-            #if REVIT2019 || REVIT2020
-
-            return UnitUtils.Convert(1, DisplayUnitType.DUT_DECIMAL_FEET, preferences.units);
-
-            #else
-
-            return UnitUtils.Convert(1, UnitTypeId.Feet, preferences.units);
-
-            #endif
+            return UnitUtils.Convert(1, UnitTypeId.Feet, Preferences.Units);
         }
 
         public static float[] GetVec3MinMax(IEnumerable<float> vec3)
