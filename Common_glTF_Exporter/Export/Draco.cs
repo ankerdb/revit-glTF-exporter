@@ -20,9 +20,6 @@ namespace Common_glTF_Exporter.Export
             var scene = res.Value();
             
             DracoCompressionOptions options = new DracoCompressionOptions();
-            
-            // Maximum compression effort (no geometry impact, just slower encoding)
-            options.compression_level = 10; // vs default 7
 
             SceneUtils.SetDracoCompressionOptions(options, scene);
             
