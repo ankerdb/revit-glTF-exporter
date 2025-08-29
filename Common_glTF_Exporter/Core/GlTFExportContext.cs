@@ -132,6 +132,7 @@ namespace Common_glTF_Exporter.Core
             {
                 FileExport.Run(bufferViews, buffers, binaryFileData,
                     scenes, nodes, meshes, materials, accessors, textures, images);
+                Draco.Compress();
             }
 
             if (currentElement != null)
@@ -383,7 +384,7 @@ namespace Common_glTF_Exporter.Core
             linkOriginalTranformation = new Autodesk.Revit.DB.Transform(CurrentTransform);
 
             // We can either skip this instance or proceed with rendering it.
-            return RenderNodeAction.Proceed;
+            return RenderNodeAction.Skip;
         }
 
         public void OnLinkEnd(LinkNode node)

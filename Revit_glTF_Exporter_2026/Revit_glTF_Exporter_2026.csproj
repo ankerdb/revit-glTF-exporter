@@ -34,6 +34,7 @@
 	  <WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Draco_transcoder" Version="3.5.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
@@ -43,9 +44,10 @@
 		<ItemGroup>
 			<DistributionFiles Include="$(OutputPath)AnkerGltfExporter.dll" />
 			<DistributionFiles Include="$(OutputPath)System.Drawing.Common.dll" />
+			<DistributionFiles Include="$(OutputPath)DracoWrapper.dll" />
 		</ItemGroup>
-		<MakeDir Directories="$(SolutionDir)Distribution\Revit2026" />
-		<Copy SourceFiles="@(DistributionFiles)" DestinationFolder="$(SolutionDir)Distribution\Revit2026" />
-		<Message Text="Distribution files copied to: $(SolutionDir)Distribution\Revit2026" Importance="high" />
+		<MakeDir Directories="$(SolutionDir)Distribution\2026" />
+		<Copy SourceFiles="@(DistributionFiles)" DestinationFolder="$(SolutionDir)Distribution\2026" />
+		<Message Text="Distribution files copied to: $(SolutionDir)Distribution\2026" Importance="high" />
 	</Target>
 </Project>

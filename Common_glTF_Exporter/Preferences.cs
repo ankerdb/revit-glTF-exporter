@@ -20,7 +20,7 @@ namespace Common_glTF_Exporter
         public static bool BatchId { get; set; } = false;
         public static bool Properties { get; set; } = false;
         public static bool RelocateTo0 { get; set; } = false;
-        public static bool FlipAxis { get; set; } = true;
+        public static bool FlipAxis { get; set; } = false;
         public static ForgeTypeId Units { get; set; } = UnitTypeId.Meters;
         public static string TempDirectory { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Anker/CustomGltfExporter");
         public static string FileName { get; set; } = "";
