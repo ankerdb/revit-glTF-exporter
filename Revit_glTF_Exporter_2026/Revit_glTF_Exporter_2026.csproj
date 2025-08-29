@@ -4,15 +4,15 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AssemblyName>custom_glTF_Exporter</AssemblyName>
+		<AssemblyName>AnkerGltfExporter</AssemblyName>
 		<Configurations>Debug;Release</Configurations>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<PlatformTarget>x64</PlatformTarget>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 	<PropertyGroup>
-  		<AssemblyTitle>Revit_glTF_Exporter_2026</AssemblyTitle>
-  		<AssemblyProduct>Revit_glTF_Exporter_2026</AssemblyProduct>
+  		<AssemblyTitle>AnkerGltfExporter</AssemblyTitle>
+  		<AssemblyProduct>AnkerGltfExporter</AssemblyProduct>
   		<AssemblyVersion>1.0.0</AssemblyVersion>
   		<FileVersion>1.0.0</FileVersion>
 	</PropertyGroup>
@@ -41,7 +41,7 @@
 	<Import Project="..\Common_glTF_Exporter\Common_glTF_Exporter.projitems" Label="Shared" />
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<ItemGroup>
-			<DistributionFiles Include="$(OutputPath)custom_glTF_Exporter.dll" />
+			<DistributionFiles Include="$(OutputPath)AnkerGltfExporter.dll" />
 			<DistributionFiles Include="$(OutputPath)System.Drawing.Common.dll" />
 		</ItemGroup>
 		<MakeDir Directories="$(SolutionDir)Distribution\Revit2026" />

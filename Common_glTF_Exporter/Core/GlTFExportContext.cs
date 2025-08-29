@@ -126,6 +126,8 @@ namespace Common_glTF_Exporter.Core
                 RevitGrids.Export(currentDocument, ref nodes, ref rootNode);
             }
 
+            ExportLog.Write($"bufferViews count: {bufferViews.Count}");
+
             if (bufferViews.Count != 0)
             {
                 FileExport.Run(bufferViews, buffers, binaryFileData,

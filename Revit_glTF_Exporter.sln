@@ -114,8 +114,8 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{0aabf61a-0caa-4e92-b73e-580821532556}*SharedItemsImports = 13
 		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{3ce3297a-a3ad-46e1-affc-12bcd892e5af}*SharedItemsImports = 5
-		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{829ce9c2-7723-4d1e-813a-c3ab7c6c1d51}*SharedItemsImports = 4
+		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{829ce9c2-7723-4d1e-813a-c3ab7c6c1d51}*SharedItemsImports = 5
 		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{bd2a5498-19b3-4b12-9081-4c7ffbcdb3ca}*SharedItemsImports = 5
-		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{c7a8980f-6129-4c0b-9cf1-1cb1023197e7}*SharedItemsImports = 4
+		Common_glTF_Exporter\Common_glTF_Exporter.projitems*{c7a8980f-6129-4c0b-9cf1-1cb1023197e7}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

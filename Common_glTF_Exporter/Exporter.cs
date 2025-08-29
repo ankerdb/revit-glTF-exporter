@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
+using Common_glTF_Exporter.Core;
 using Common_glTF_Exporter.Materials;
 using Common_glTF_Exporter.Utils;
-using Common_glTF_Exporter.Core;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Common_glTF_Exporter
 {
-    public static class Exporter
+    internal static class Exporter
     {
-        public static Document CurrentDocument;
-        public static List<string> TexturePaths = new List<string>();
-        public static void Export(Document doc)
+        internal static Document CurrentDocument;
+        internal static List<string> TexturePaths = new List<string>();
+        internal static string Export(Document doc, string fileName)
         {
+            if (!Directory.Exists(Preferences.TempDirectory))
+            {
+                Directory.CreateDirectory(Preferences.TempDirectory);
+            }
             ExportLog.StartLog();
             CurrentDocument = doc;
+            Preferences.FileName = $"{fileName}.glb";
             Autodesk.Revit.DB.View view = doc.ActiveView;
 
             if (view == null || view.GetType().Name != "View3D")
             {
                 ExportLog.WriteException(new Exception("Wrong View, You must be in a 3D view to export"));
-                return;
+                return "";
             }
             TexturePaths = TextureLocation.GetPaths();
 
@@ -30,7 +35,7 @@ namespace Common_glTF_Exporter
             if (!doc.IsFamilyDocument && elementsInView.Count == 0)
             {
                 ExportLog.WriteException(new Exception("There are no valid elements to export in this view"));
-                return;
+                return "";
             }
 
             ExportLog.Write($"{elementsInView.Count} elements will be exported");
@@ -41,6 +46,7 @@ namespace Common_glTF_Exporter
 
             exporter.Export(view);
             ExportLog.EndLog();
+            return Preferences.TempDirectory;
         }
     }
 }

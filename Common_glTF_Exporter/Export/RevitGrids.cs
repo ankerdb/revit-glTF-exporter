@@ -53,7 +53,7 @@
                     }
 
                     var gridNode = new GLTFNode();
-                    gridNode.name = g.Name;
+                    gridNode.name = g.UniqueId;
                     gridNode.extras = xtras;
 
                     nodes.AddOrUpdateCurrent(g.UniqueId, gridNode);

@@ -6,14 +6,10 @@ namespace Common_glTF_Exporter.Utils
 {
     public class ExportLog
     {
-        private static readonly string logFilePath = Path.Combine(Links.configDir, "leia_log.txt");
+        private static readonly string logFilePath = Path.Combine(Preferences.TempDirectory, "gltf_export_log.txt");
 
         public static void StartLog()
         {
-            if (!Directory.Exists(Links.configDir))
-            {
-                Directory.CreateDirectory(Links.configDir);
-            }
             File.WriteAllText(logFilePath, $"[START] Export started at {DateTime.Now}\n");
         }
 

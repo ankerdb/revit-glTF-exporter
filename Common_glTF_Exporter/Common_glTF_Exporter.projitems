@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\GLTFVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\GLTFBinaryData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\IndexedDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AnkerGltfExporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\ElementValidations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EportUtils\GLTFNodeActions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exporter.cs" />
@@ -41,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Materials\MaterialTextures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\TextureLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GlbComponents.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Links.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\MaterialCacheDTO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Payload.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\RevitGridParametersObject.cs" />
@@ -76,7 +76,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)PackageContents.xml" />
     <Resource Include="$(MSBuildThisFileDirectory)Fonts\NeuzeitGrotesk-Black.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -89,8 +88,5 @@
     <Resource Include="$(MSBuildThisFileDirectory)Fonts\NeuzeitGrotesk-Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Content Include="$(MSBuildThisFileDirectory)Leia_glTF_Exporter.addin">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 </Project>

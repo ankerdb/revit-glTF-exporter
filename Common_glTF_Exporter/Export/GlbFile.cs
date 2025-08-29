@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using Common_glTF_Exporter.Core;
 
 namespace Common_glTF_Exporter.Export
@@ -17,7 +16,7 @@ namespace Common_glTF_Exporter.Export
             byte[] binChunk = GlbBinInfo.Get(binaryFileData);
             byte[] headerChunk = GlbHeaderInfo.Get(jsonChunk, binChunk);
 
-            string fileDirectory = string.Concat(Preferences.Path, ".glb");
+            string fileDirectory = Path.Combine(Preferences.TempDirectory, Preferences.FileName);
             byte[] exportArray = headerChunk.Concat(jsonChunk).Concat(binChunk).ToArray();
 
             File.WriteAllBytes(fileDirectory, exportArray);

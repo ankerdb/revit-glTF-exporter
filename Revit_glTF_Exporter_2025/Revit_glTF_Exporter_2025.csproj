@@ -2,25 +2,21 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
-		<UseWindowsForms>true</UseWindowsForms>
-		<UseWPF>true</UseWPF>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AssemblyName>Leia_glTF_Exporter</AssemblyName>
+		<AssemblyName>AnkerGltfExporter</AssemblyName>
 		<Configurations>Debug;Release</Configurations>
-		<Platforms>AnyCPU;x64;x86</Platforms>
-		<PlatformTarget>AnyCPU</PlatformTarget>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PlatformTarget>x64</PlatformTarget>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 	<PropertyGroup>
-  		<AssemblyTitle>Revit_glTF_Exporter_2025</AssemblyTitle>
-  		<AssemblyDescription></AssemblyDescription>
-  		<AssemblyCompany>e-verse</AssemblyCompany>
-  		<AssemblyProduct>Revit_glTF_Exporter_2025</AssemblyProduct>
-  		<AssemblyVersion>1.0.0</AssemblyVersion>
-  		<FileVersion>1.0.0</FileVersion>
+		<AssemblyTitle>AnkerGltfExporter</AssemblyTitle>
+		<AssemblyProduct>AnkerGltfExporter</AssemblyProduct>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<FileVersion>1.0.0</FileVersion>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<PropertyGroup Condition="$(Configuration.Contains('Debug'))">
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>portable</DebugType>
 		<Optimize>false</Optimize>
@@ -29,41 +25,7 @@
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-	  <DebugSymbols>true</DebugSymbols>
-	  <DebugType>portable</DebugType>
-	  <Optimize>false</Optimize>
-	  <OutputPath>bin\Debug\</OutputPath>
-	  <DefineConstants>TRACE;DEBUG;REVIT2025</DefineConstants>
-	  <ErrorReport>prompt</ErrorReport>
-	  <WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>portable</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>TRACE;DEBUG;REVIT2025</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>none</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE;DEBUG;REVIT2025</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-	  <DebugType>none</DebugType>
-	  <Optimize>true</Optimize>
-	  <OutputPath>bin\Release\</OutputPath>
-	  <DefineConstants>TRACE;DEBUG;REVIT2025</DefineConstants>
-	  <ErrorReport>prompt</ErrorReport>
-	  <WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+	<PropertyGroup Condition="$(Configuration.Contains('Release'))">
 		<DebugType>none</DebugType>
 		<Optimize>true</Optimize>
 		<OutputPath>bin\Release\</OutputPath>
@@ -72,18 +34,18 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 		<PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
-		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Resources\" />
 	</ItemGroup>
 	<Import Project="..\Common_glTF_Exporter\Common_glTF_Exporter.projitems" Label="Shared" />
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="If &quot;%25CI%25&quot;==&quot;true&quot; (&#xD;&#xA;    &quot;C:\Users\runneradmin\.nuget\packages\signtool\10.0.17763.132\tools\signtool.exe&quot; sign /f $(CERTIFICATE_LOCATION) /p $(CERTIFICATE_KEY) /t http://timestamp.digicert.com &quot;$(ProjectDir)$(OutputPath)Leia_glTF_Exporter.dll&quot;&#xD;&#xA;)" />
+		<ItemGroup>
+			<DistributionFiles Include="$(OutputPath)AnkerGltfExporter.dll" />
+			<DistributionFiles Include="$(OutputPath)System.Drawing.Common.dll" />
+		</ItemGroup>
+		<MakeDir Directories="$(SolutionDir)Distribution\Revit2025" />
+		<Copy SourceFiles="@(DistributionFiles)" DestinationFolder="$(SolutionDir)Distribution\Revit2025" />
+		<Message Text="Distribution files copied to: $(SolutionDir)Distribution\Revit2026" Importance="high" />
 	</Target>
 </Project>

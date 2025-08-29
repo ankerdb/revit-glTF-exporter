@@ -160,41 +160,7 @@ namespace Revit_glTF_Exporter
             {
                 return NullStr;
             }
-
-            // For a wall, the element name equals the wall type name, which is equivalent to the family name ...
-            FamilyInstance fi = e as FamilyInstance;
-
-            ElementDescriptionStrBuilder.Append(e.GetType().Name);
-            ElementDescriptionStrBuilder.Append(SpaceStr);
-
-            if (e.Category != null)
-            {
-                ElementDescriptionStrBuilder.Append(e.Category.Name);
-                ElementDescriptionStrBuilder.Append(SpaceStr);
-            }
-
-            if (fi != null)
-            {
-                ElementDescriptionStrBuilder.Append(fi.Symbol.Family.Name);
-                ElementDescriptionStrBuilder.Append(SpaceStr);
-
-                if (!e.Name.Equals(fi.Symbol.Name))
-                {
-                    ElementDescriptionStrBuilder.Append(fi.Symbol.Name);
-                    ElementDescriptionStrBuilder.Append(SpaceStr);
-                }
-            }
-
-            ElementDescriptionStrBuilder.Append(LessSignStr);
-            #if REVIT2026
-            ElementDescriptionStrBuilder.Append(e.Id.Value);
-            #else
-            ElementDescriptionStrBuilder.Append(e.Id.IntegerValue);
-            #endif
-            ElementDescriptionStrBuilder.Append(SpaceStr);
-            ElementDescriptionStrBuilder.Append(e.Name);
-            ElementDescriptionStrBuilder.Append(GreaterSignStr);
-
+            ElementDescriptionStrBuilder.Append(e.UniqueId);
             return ElementDescriptionStrBuilder.ToString();
         }
 
