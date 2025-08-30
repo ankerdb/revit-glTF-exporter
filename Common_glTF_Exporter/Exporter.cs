@@ -5,6 +5,7 @@ using Common_glTF_Exporter.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Anker.GLTF.Exporter;
 
 namespace Common_glTF_Exporter
 {
@@ -12,41 +13,58 @@ namespace Common_glTF_Exporter
     {
         internal static Document CurrentDocument;
         internal static List<string> TexturePaths = new List<string>();
-        internal static string Export(Document doc, string fileName)
+        internal static AnkerGltfExporter.ExportOptions exportOptions = new AnkerGltfExporter.ExportOptions();
+        internal static bool Export(Document doc, AnkerGltfExporter.ExportOptions options)
         {
-            if (!Directory.Exists(Preferences.TempDirectory))
+            exportOptions = options;
+            if (!Directory.Exists(exportOptions.TempDirectory))
             {
-                Directory.CreateDirectory(Preferences.TempDirectory);
+                Directory.CreateDirectory(exportOptions.TempDirectory);
             }
             ExportLog.StartLog();
             CurrentDocument = doc;
-            Preferences.FileName = $"{fileName}.glb";
+            exportOptions.GlbFileName = string.IsNullOrEmpty(exportOptions.GlbFileName)
+            ? "export.glb"
+            : exportOptions.GlbFileName.EndsWith(".glb", StringComparison.OrdinalIgnoreCase)
+                ? exportOptions.GlbFileName
+                : $"{exportOptions.GlbFileName}.glb";
             Autodesk.Revit.DB.View view = doc.ActiveView;
 
-            if (view == null || view.GetType().Name != "View3D")
+            try
             {
-                ExportLog.WriteException(new Exception("Wrong View, You must be in a 3D view to export"));
-                return "";
+
+                if (view == null || view.GetType().Name != "View3D")
+                {
+                    ExportLog.WriteException(new Exception("Wrong View, You must be in a 3D view to export"));
+                    return false;
+                }
+                TexturePaths = TextureLocation.GetPaths();
+
+                List<Element> elementsInView = Collectors.AllVisibleElementsByView(doc, view);
+
+                if (!doc.IsFamilyDocument && elementsInView.Count == 0)
+                {
+                    ExportLog.WriteException(new Exception("There are no valid elements to export in this view"));
+                    return false;
+                }
+
+                ExportLog.Write($"{elementsInView.Count} elements will be exported");
+
+                GLTFExportContext ctx = new GLTFExportContext(doc, view);
+                CustomExporter exporter = new CustomExporter(doc, ctx);
+                exporter.ShouldStopOnError = false;
+
+                exporter.Export(view);
+                ExportLog.Write("Export finished, writing to file...");
+                ExportLog.EndLog();
+                return true;
             }
-            TexturePaths = TextureLocation.GetPaths();
-
-            List<Element> elementsInView = Collectors.AllVisibleElementsByView(doc, view);
-
-            if (!doc.IsFamilyDocument && elementsInView.Count == 0)
+            catch (Exception ex)
             {
-                ExportLog.WriteException(new Exception("There are no valid elements to export in this view"));
-                return "";
+                ExportLog.Write("Export failed");
+                ExportLog.WriteException(ex);
+                return false;
             }
-
-            ExportLog.Write($"{elementsInView.Count} elements will be exported");
-
-            GLTFExportContext ctx = new GLTFExportContext(doc, view);
-            CustomExporter exporter = new CustomExporter(doc, ctx);
-            exporter.ShouldStopOnError = false;
-
-            exporter.Export(view);
-            ExportLog.EndLog();
-            return Preferences.TempDirectory;
         }
     }
 }

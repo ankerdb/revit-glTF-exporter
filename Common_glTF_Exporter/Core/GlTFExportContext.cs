@@ -8,6 +8,7 @@ using Common_glTF_Exporter.Transform;
 using Common_glTF_Exporter.Utils;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.EportUtils;
+using Anker.GLTF.Exporter;
 
 namespace Common_glTF_Exporter.Core
 {
@@ -89,7 +90,7 @@ namespace Common_glTF_Exporter.Core
             // Creation Root Node
             rootNode = new GLTFNode();
             rootNode.name = "rootNode";
-            rootNode.rotation = ModelRotation.Get(Preferences.FlipAxis);
+            rootNode.rotation = ModelRotation.Get(Exporter.exportOptions.FlipAxis);
             rootNode.scale = ModelScale.Get();
             rootNode.translation = ModelTranslation.GetPointToRelocate(currentDocument, 
                 rootNode.scale[0]);
@@ -121,7 +122,7 @@ namespace Common_glTF_Exporter.Core
                 return;
             }
 
-            if (Preferences.Grids)
+            if (Exporter.exportOptions.Grids)
             {
                 RevitGrids.Export(currentDocument, ref nodes, ref rootNode);
             }
@@ -132,7 +133,14 @@ namespace Common_glTF_Exporter.Core
             {
                 FileExport.Run(bufferViews, buffers, binaryFileData,
                     scenes, nodes, meshes, materials, accessors, textures, images);
-                Draco.Compress();
+                if (Exporter.exportOptions.Compress == AnkerGltfExporter.Compression.Draco)
+                {
+                    Draco.Compress();
+                }
+                else if (Exporter.exportOptions.Compress == AnkerGltfExporter.Compression.MeshOpt)
+                {
+                    MeshOpt.Compress();
+                }
             }
 
             if (currentElement != null)
@@ -220,18 +228,18 @@ namespace Common_glTF_Exporter.Core
 
                 primitive.attributes.POSITION = elementBinary.vertexAccessorIndex;
 
-                if (Preferences.Normals)
+                if (Exporter.exportOptions.Normals)
                 {
                     primitive.attributes.NORMAL = elementBinary.normalsAccessorIndex;
                 }
 
-                if (Preferences.BatchId)
+                if (Exporter.exportOptions.BatchId)
                 {
                     primitive.attributes._BATCHID = elementBinary.batchIdAccessorIndex;
                 }
 
                 if (elementBinary.uvAccessorIndex != -1 &&
-                    Preferences.Materials == MaterialsEnum.textures &&
+                    Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures &&
                     mat.EmbeddedTexturePath != null)
                 {
                     primitive.attributes.TEXCOORD_0 = elementBinary.uvAccessorIndex;
@@ -239,7 +247,7 @@ namespace Common_glTF_Exporter.Core
 
                 primitive.indices = elementBinary.indexAccessorIndex;
 
-                if (Preferences.Materials == MaterialsEnum.materials || Preferences.Materials == MaterialsEnum.textures)
+                if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
                     if (materials.Contains(material_key))
                     {
@@ -260,7 +268,7 @@ namespace Common_glTF_Exporter.Core
         /// <param name="node">Material node.</param>
         public void OnMaterial(MaterialNode node)
         {
-            if (Preferences.Materials == MaterialsEnum.materials || Preferences.Materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (node.MaterialId == ElementId.InvalidElementId)
                 {
@@ -313,7 +321,7 @@ namespace Common_glTF_Exporter.Core
                                          new PointIntObject(vertex), geomItem.Vertices);
                     geomItem.Faces.Add(vertexIndex);
 
-                    if (Preferences.Materials == MaterialsEnum.textures && currentMaterial?.EmbeddedTexturePath != null)
+                    if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures && currentMaterial?.EmbeddedTexturePath != null)
                     {
                         UV uv = uvs[index];
                         UV flippedUV = new UV(uv.U, 1.0 - uv.V);
@@ -322,7 +330,7 @@ namespace Common_glTF_Exporter.Core
                 }
             }
 
-            if (Preferences.Normals)
+            if (Exporter.exportOptions.Normals)
             {
                 GLTFExportUtils.AddNormals(CurrentTransform, polymesh, geomItem.Normals);
             }
@@ -418,7 +426,7 @@ namespace Common_glTF_Exporter.Core
                     continue;
                 }
 
-                if (Preferences.Materials == MaterialsEnum.materials || Preferences.Materials == MaterialsEnum.textures)
+                if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
                     currentMaterial = MaterialUtils.GetGltfMeshMaterial(currentDocument, mesh, materials, true);
                     materials.AddOrUpdateCurrentMaterial(currentMaterial.UniqueId, currentMaterial, true);
@@ -452,7 +460,7 @@ namespace Common_glTF_Exporter.Core
 
                     GLTFExportUtils.AddVerticesAndFaces(currentVertices.CurrentItem, currentGeometry.CurrentItem, ptsTransformed);
 
-                    if (Preferences.Normals)
+                    if (Exporter.exportOptions.Normals)
                     {
                         GLTFExportUtils.AddRPCNormals(triangle, currentGeometry.CurrentItem);
                     }

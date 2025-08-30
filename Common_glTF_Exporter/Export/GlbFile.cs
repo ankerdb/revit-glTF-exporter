@@ -16,7 +16,7 @@ namespace Common_glTF_Exporter.Export
             byte[] binChunk = GlbBinInfo.Get(binaryFileData);
             byte[] headerChunk = GlbHeaderInfo.Get(jsonChunk, binChunk);
 
-            string fileDirectory = Path.Combine(Preferences.TempDirectory, Preferences.FileName);
+            string fileDirectory = Path.Combine(Exporter.exportOptions.TempDirectory, Exporter.exportOptions.GlbFileName);
             byte[] exportArray = headerChunk.Concat(jsonChunk).Concat(binChunk).ToArray();
 
             File.WriteAllBytes(fileDirectory, exportArray);

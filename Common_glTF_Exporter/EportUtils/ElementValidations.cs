@@ -25,7 +25,7 @@ namespace Common_glTF_Exporter.EportUtils
             }
 
             bool isHiddenOrLocked = !Util.CanBeLockOrHidden(currentElement, currentView, currentDocument.IsFamilyDocument);
-            bool isLevelToSkip = currentElement is Level && !Preferences.Levels;
+            bool isLevelToSkip = currentElement is Level && !Exporter.exportOptions.Levels;
             bool isAlreadyProcessed = nodes.Contains(currentElement.UniqueId);
 
             if (isHiddenOrLocked || isLevelToSkip || isAlreadyProcessed)

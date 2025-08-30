@@ -47,7 +47,7 @@
                     xtras.gridParameters = grid;
                     xtras.uniqueId = g.UniqueId;
 
-                    if (Preferences.Properties)
+                    if (Exporter.exportOptions.Properties)
                     {
                         xtras.parameters = Util.GetElementParameters(g, true);
                     }

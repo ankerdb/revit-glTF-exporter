@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbJsonInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GlbHeaderInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Export\GltfJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Export\MeshOpt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\AssetProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\BitmapsUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Materials\MaterialProperties.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeometryDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\PointIntObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\VertexLookupIntObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Preferences.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelRotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transform\ModelScale.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\CompUnits.cs" />

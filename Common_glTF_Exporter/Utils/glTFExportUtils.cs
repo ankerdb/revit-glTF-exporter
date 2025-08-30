@@ -123,12 +123,12 @@
 
             byteOffset = GLTFBinaryDataUtils.ExportVertices(bufferIdx, byteOffset, geomData, bufferData, bufferViews, accessors, out int sizeOfVec3View, out int elementsPerVertex);
 
-            if (Preferences.Normals)
+            if (Exporter.exportOptions.Normals)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportNormals(bufferIdx, byteOffset, geomData, bufferData, bufferViews, accessors);
             }  
 
-            if (Preferences.Materials == MaterialsEnum.textures &&
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures &&
                 material.pbrMetallicRoughness?.baseColorTexture != null && geomData.Uvs.Count != 0)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportImageBuffer(bufferIdx, byteOffset, material, images, textures, bufferData, bufferViews);
@@ -136,7 +136,7 @@
                 
             }
 
-            if (Preferences.BatchId)
+            if (Exporter.exportOptions.BatchId)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportBatchId(bufferIdx, byteOffset, sizeOfVec3View, elementsPerVertex, elementId, geomData, bufferData, bufferViews, accessors);
             }

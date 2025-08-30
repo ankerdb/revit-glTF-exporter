@@ -27,7 +27,7 @@
 
             Material material = GetMeshMaterial(doc, mesh);
 
-            if (Preferences.Materials == MaterialsEnum.materials || Preferences.Materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (material == null)
                 {

@@ -31,7 +31,7 @@ namespace Common_glTF_Exporter.Export
                 meshes = meshes,
             };
 
-            if (Preferences.Materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 model.extensionsUsed = new List<string> { "KHR_texture_transform" };
             }
@@ -41,7 +41,7 @@ namespace Common_glTF_Exporter.Export
                 model.materials = materials;
             }
 
-            if (Preferences.Materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (textures.Any())
                 {

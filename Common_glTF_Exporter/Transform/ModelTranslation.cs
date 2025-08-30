@@ -10,7 +10,7 @@ namespace Common_glTF_Exporter.Transform
         public static List<float> GetPointToRelocate(Document doc, double scale)
         {
             
-            if (Preferences.RelocateTo0)
+            if (Exporter.exportOptions.RelocateTo0)
             {
                 List<Element> elementsOnActiveView = new List<Element>();
                 if (doc.IsFamilyDocument)
@@ -24,7 +24,7 @@ namespace Common_glTF_Exporter.Transform
 
                 var bb = Util.GetElementsBoundingBox(doc.ActiveView, elementsOnActiveView);
                 
-                if (Preferences.FlipAxis)
+                if (Exporter.exportOptions.FlipAxis)
                 {
                     double pointX = -scale * ((bb.Min.X + bb.Max.X) / 2);
                     double pointy = -scale * bb.Min.Z;

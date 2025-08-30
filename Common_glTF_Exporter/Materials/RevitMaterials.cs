@@ -31,7 +31,7 @@ namespace Common_glTF_Exporter.Export
                 GLTFPBR pbr = new GLTFPBR();
                 MaterialProperties.SetProperties(node, opacity, ref pbr, ref gl_mat);
 
-                if (material != null && Preferences.Materials == MaterialsEnum.textures)
+                if (material != null && Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
                     MaterialTextures.SetMaterialTextures(material, gl_mat, doc, opacity);
                 }

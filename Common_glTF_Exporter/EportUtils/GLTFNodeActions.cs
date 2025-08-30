@@ -16,7 +16,7 @@ namespace Common_glTF_Exporter.EportUtils
             GLTFNode newNode = new GLTFNode();
             newNode.name = Util.ElementDescription(currentElement);
 
-            if (Preferences.Properties)
+            if (Exporter.exportOptions.Properties)
             {
                 // get the extras for this element
                 GLTFExtras extras = new GLTFExtras

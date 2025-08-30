@@ -6,7 +6,7 @@ namespace Common_glTF_Exporter.Utils
 {
     public class ExportLog
     {
-        private static readonly string logFilePath = Path.Combine(Preferences.TempDirectory, "gltf_export_log.txt");
+        private static readonly string logFilePath = Path.Combine(Exporter.exportOptions.TempDirectory, Exporter.exportOptions.TxtFileName);
 
         public static void StartLog()
         {

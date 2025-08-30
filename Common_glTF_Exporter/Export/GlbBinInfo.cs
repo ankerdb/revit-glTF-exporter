@@ -22,7 +22,7 @@ namespace Common_glTF_Exporter.Export
                     binData.AddRange(vertex);
                 }
 
-                if (Preferences.Normals)
+                if (Exporter.exportOptions.Normals)
                 {
                     foreach (var normal in bin.normalBuffer)
                     {
@@ -31,7 +31,7 @@ namespace Common_glTF_Exporter.Export
                     }
                 }
 
-                if (Preferences.Materials == MaterialsEnum.textures)
+                if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
                     if (bin.byteData != null)
                     {
@@ -48,7 +48,7 @@ namespace Common_glTF_Exporter.Export
                     }
                 }
 
-                if (Preferences.BatchId)
+                if (Exporter.exportOptions.BatchId)
                 {
                     foreach (var batchId in bin.batchIdBuffer)
                     {

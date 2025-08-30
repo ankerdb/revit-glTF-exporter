@@ -71,7 +71,7 @@ namespace Revit_glTF_Exporter
         /// <returns>Converted value.</returns>
         public static double ConvertFeetToUnitTypeId()
         {
-            return UnitUtils.Convert(1, UnitTypeId.Feet, Preferences.Units);
+            return UnitUtils.Convert(1, UnitTypeId.Feet, Exporter.exportOptions.Units);
         }
 
         public static float[] GetVec3MinMax(IEnumerable<float> vec3)
