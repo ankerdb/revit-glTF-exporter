@@ -10,20 +10,25 @@ namespace Common_glTF_Exporter.Utils
 
         public static void StartLog()
         {
-            File.WriteAllText(logFilePath, $"[START] Export started at {DateTime.Now}\n");
+            File.WriteAllText(logFilePath, $"Convert to GLB started at {DateTime.Now}");
         }
 
         public static void EndLog()
         {
-            File.AppendAllText(logFilePath, $"[END] Export ended at {DateTime.Now}\n");
+            using (var writer = File.AppendText(logFilePath))
+            {
+                writer.WriteLine($"Convert to GLB ended at {DateTime.Now}");
+            }
         }
 
         public static void Write(string message)
         {
             try
             {
-                string timestampedMessage = $"[{DateTime.Now:HH:mm:ss}] {message}\n";
-                File.AppendAllText(logFilePath, timestampedMessage, Encoding.UTF8);
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine(message);
+                }
             }
             catch (Exception ex)
             {
@@ -35,8 +40,11 @@ namespace Common_glTF_Exporter.Utils
         {
             try
             {
-                string message = $"[ERROR] {DateTime.Now:HH:mm:ss} - {ex.Message}\n{ex.StackTrace}\n";
-                File.AppendAllText(logFilePath, message, Encoding.UTF8);
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine($"Error: {ex.Message}");
+                    writer.WriteLine(ex.StackTrace);
+                }
             }
             catch (Exception logEx)
             {
@@ -44,10 +52,6 @@ namespace Common_glTF_Exporter.Utils
             }
         }
 
-        public string GetLogPath()
-        {
-            return logFilePath;
-        }
     }
 
 }
