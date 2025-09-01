@@ -10,14 +10,31 @@ namespace Common_glTF_Exporter.Utils
 
         public static void StartLog()
         {
-            File.WriteAllText(logFilePath, $"Convert to GLB started at {DateTime.Now}");
+            try
+            {
+                using (var writer = File.CreateText(logFilePath))
+                {
+                    writer.WriteLine($"Convert to GLB started at {DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error writing to log: {ex.Message}");
+            }
         }
 
         public static void EndLog()
         {
-            using (var writer = File.AppendText(logFilePath))
+            try
             {
-                writer.WriteLine($"Convert to GLB ended at {DateTime.Now}");
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine($"Convert to GLB ended at {DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error writing to log: {ex.Message}");
             }
         }
 

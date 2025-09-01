@@ -48,14 +48,14 @@ namespace Common_glTF_Exporter
                     return false;
                 }
 
-                ExportLog.Write($"{elementsInView.Count} elements will be exported");
+                ExportLog.Write($"Element count - {elementsInView.Count}");
 
                 GLTFExportContext ctx = new GLTFExportContext(doc, view);
                 CustomExporter exporter = new CustomExporter(doc, ctx);
                 exporter.ShouldStopOnError = false;
 
                 exporter.Export(view);
-                ExportLog.Write("Export finished, writing to file...");
+                ExportLog.Write("Writing to file...");
                 ExportLog.EndLog();
                 return true;
             }

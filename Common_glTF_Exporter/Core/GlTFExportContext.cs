@@ -82,8 +82,6 @@ namespace Common_glTF_Exporter.Core
         /// <returns>TRUE if starded.</returns>
         public bool Start()
         {
-            ExportLog.Write("Export Started");
-
             cancelation = false;
             transformStack.Push(Autodesk.Revit.DB.Transform.Identity);
 
@@ -147,7 +145,6 @@ namespace Common_glTF_Exporter.Core
             {
                 ExportLog.Write($"Last Element {currentElement.Id}");
             }
-            ExportLog.Write("Export Finished");
         }
 
         /// <summary>
