@@ -6,11 +6,9 @@ using Common_glTF_Exporter.Export;
 using Common_glTF_Exporter.Model;
 using Common_glTF_Exporter.Transform;
 using Common_glTF_Exporter.Utils;
-using Common_glTF_Exporter.Windows.MainWindow;
 using Revit_glTF_Exporter;
 using Common_glTF_Exporter.EportUtils;
-using System.Windows.Media.Media3D;
-using System.Windows.Controls;
+using Anker.GLTF.Exporter;
 
 namespace Common_glTF_Exporter.Core
 {
@@ -26,8 +24,6 @@ namespace Common_glTF_Exporter.Core
         public Autodesk.Revit.DB.Transform linkOriginalTranformation { get; private set; }
 
         public bool isLink { get; private set; }
-
-        private Preferences preferences;
 
         private Document currentDocument;
         private Autodesk.Revit.DB.View currentView;
@@ -74,10 +70,10 @@ namespace Common_glTF_Exporter.Core
             }
         }
 
-        public GLTFExportContext(Document doc)
+        public GLTFExportContext(Document doc, Autodesk.Revit.DB.View view)
         {
             currentDocument = doc;
-            currentView = doc.ActiveView;
+            currentView = view;
         }
 
         /// <summary>
@@ -86,19 +82,16 @@ namespace Common_glTF_Exporter.Core
         /// <returns>TRUE if starded.</returns>
         public bool Start()
         {
-            ExportLog.Write("Export Started");
-            preferences = Common_glTF_Exporter.Windows.MainWindow.Settings.GetInfo();
-
             cancelation = false;
             transformStack.Push(Autodesk.Revit.DB.Transform.Identity);
 
             // Creation Root Node
             rootNode = new GLTFNode();
             rootNode.name = "rootNode";
-            rootNode.rotation = ModelRotation.Get(preferences.flipAxis);
-            rootNode.scale = ModelScale.Get(preferences);
-            rootNode.translation = ModelTraslation.GetPointToRelocate(currentDocument, 
-                rootNode.scale[0], preferences);
+            rootNode.rotation = ModelRotation.Get(Exporter.exportOptions.FlipAxis);
+            rootNode.scale = ModelScale.Get();
+            rootNode.translation = ModelTranslation.GetPointToRelocate(currentDocument, 
+                rootNode.scale[0]);
             rootNode.children = new List<int>();
 
             nodes.AddOrUpdateCurrent("rootNode", rootNode);
@@ -127,23 +120,31 @@ namespace Common_glTF_Exporter.Core
                 return;
             }
 
-            if (preferences.grids)
+            if (Exporter.exportOptions.Grids)
             {
-                RevitGrids.Export(currentDocument, ref nodes, ref rootNode, preferences);
+                RevitGrids.Export(currentDocument, ref nodes, ref rootNode);
             }
+
+            ExportLog.Write($"bufferViews count: {bufferViews.Count}");
 
             if (bufferViews.Count != 0)
             {
-                FileExport.Run(preferences, bufferViews, buffers, binaryFileData,
+                FileExport.Run(bufferViews, buffers, binaryFileData,
                     scenes, nodes, meshes, materials, accessors, textures, images);
-                Compression.Run(preferences, ProgressBarWindow.ViewModel);
+                if (Exporter.exportOptions.Compress == AnkerGltfExporter.Compression.Draco)
+                {
+                    Draco.Compress();
+                }
+                else if (Exporter.exportOptions.Compress == AnkerGltfExporter.Compression.MeshOpt)
+                {
+                    MeshOpt.Compress();
+                }
             }
 
             if (currentElement != null)
             {
                 ExportLog.Write($"Last Element {currentElement.Id}");
             }
-            ExportLog.Write("Export Finished");
         }
 
         /// <summary>
@@ -156,7 +157,7 @@ namespace Common_glTF_Exporter.Core
         {
             currentElement = currentDocument.GetElement(elementId);
 
-            if (ElementValidations.ShouldSkipElement(currentElement, currentView, currentDocument, preferences, nodes))
+            if (ElementValidations.ShouldSkipElement(currentElement, currentView, currentDocument, nodes))
             {
                 currentElement = null;
                 return RenderNodeAction.Skip;
@@ -164,17 +165,7 @@ namespace Common_glTF_Exporter.Core
 
             linkTransformation = (currentElement as RevitLinkInstance)?.GetTransform();
 
-            if (!isLink)
-            {
-                if (!currentElement.IsHidden(currentView) &&
-                    currentView.IsElementVisibleInTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate, 
-                    elementId))
-                {
-                    ProgressBarWindow.ViewModel.ProgressBarValue++;
-                }
-            }
-
-            currentNode = GLTFNodeActions.CreateGLTFNodeFromElement(currentElement, preferences);
+            currentNode = GLTFNodeActions.CreateGLTFNodeFromElement(currentElement);
             currentGeometry.Reset();
             currentVertices.Reset();
 
@@ -214,6 +205,7 @@ namespace Common_glTF_Exporter.Core
             {
                 string material_key = kvp.Key.Split(UNDERSCORE)[1];
                 GLTFMaterial mat = materials.GetElement(material_key);
+                var elemId = CompUnits.GetIdValue(elementId);
 
                 GLTFBinaryData elementBinary = GLTFExportUtils.AddGeometryMeta(
                     buffers,
@@ -221,12 +213,7 @@ namespace Common_glTF_Exporter.Core
                     bufferViews,
                     kvp.Value,
                     kvp.Key,
-                    #if REVIT2024 || REVIT2025 || REVIT2026
-                    elementId.Value,
-                    #else
-                    elementId.IntegerValue,
-                    #endif
-                    preferences,
+                    elemId,
                     mat,
                     images,
                     textures);
@@ -238,18 +225,18 @@ namespace Common_glTF_Exporter.Core
 
                 primitive.attributes.POSITION = elementBinary.vertexAccessorIndex;
 
-                if (preferences.normals)
+                if (Exporter.exportOptions.Normals)
                 {
                     primitive.attributes.NORMAL = elementBinary.normalsAccessorIndex;
                 }
 
-                if (preferences.batchId)
+                if (Exporter.exportOptions.BatchId)
                 {
                     primitive.attributes._BATCHID = elementBinary.batchIdAccessorIndex;
                 }
 
                 if (elementBinary.uvAccessorIndex != -1 &&
-                    preferences.materials == MaterialsEnum.textures &&
+                    Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures &&
                     mat.EmbeddedTexturePath != null)
                 {
                     primitive.attributes.TEXCOORD_0 = elementBinary.uvAccessorIndex;
@@ -257,7 +244,7 @@ namespace Common_glTF_Exporter.Core
 
                 primitive.indices = elementBinary.indexAccessorIndex;
 
-                if (preferences.materials == MaterialsEnum.materials || preferences.materials == MaterialsEnum.textures)
+                if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
                     if (materials.Contains(material_key))
                     {
@@ -278,7 +265,7 @@ namespace Common_glTF_Exporter.Core
         /// <param name="node">Material node.</param>
         public void OnMaterial(MaterialNode node)
         {
-            if (preferences.materials == MaterialsEnum.materials || preferences.materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (node.MaterialId == ElementId.InvalidElementId)
                 {
@@ -293,7 +280,7 @@ namespace Common_glTF_Exporter.Core
                     }
                     else
                     {
-                        currentMaterial = RevitMaterials.Export(node, preferences, currentDocument);
+                        currentMaterial = RevitMaterials.Export(node, currentDocument);
                     }
                     materials.AddOrUpdateCurrentMaterial(materialId, currentMaterial, false);
                 }
@@ -331,7 +318,7 @@ namespace Common_glTF_Exporter.Core
                                          new PointIntObject(vertex), geomItem.Vertices);
                     geomItem.Faces.Add(vertexIndex);
 
-                    if (preferences.materials == MaterialsEnum.textures && currentMaterial?.EmbeddedTexturePath != null)
+                    if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures && currentMaterial?.EmbeddedTexturePath != null)
                     {
                         UV uv = uvs[index];
                         UV flippedUV = new UV(uv.U, 1.0 - uv.V);
@@ -340,7 +327,7 @@ namespace Common_glTF_Exporter.Core
                 }
             }
 
-            if (preferences.normals)
+            if (Exporter.exportOptions.Normals)
             {
                 GLTFExportUtils.AddNormals(CurrentTransform, polymesh, geomItem.Normals);
             }
@@ -402,7 +389,7 @@ namespace Common_glTF_Exporter.Core
             linkOriginalTranformation = new Autodesk.Revit.DB.Transform(CurrentTransform);
 
             // We can either skip this instance or proceed with rendering it.
-            return RenderNodeAction.Proceed;
+            return RenderNodeAction.Skip;
         }
 
         public void OnLinkEnd(LinkNode node)
@@ -412,7 +399,7 @@ namespace Common_glTF_Exporter.Core
             // Note: This method is invoked even for instances that were skipped.
             transformStack.Pop();
 
-            currentDocument = ExternalApplication.RevitCollectorService.GetDocument();
+            currentDocument = Exporter.CurrentDocument;
         }
 
         public RenderNodeAction Begin(FaceNode node)
@@ -436,9 +423,9 @@ namespace Common_glTF_Exporter.Core
                     continue;
                 }
 
-                if (preferences.materials == MaterialsEnum.materials || preferences.materials == MaterialsEnum.textures)
+                if (Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == AnkerGltfExporter.MaterialsExportMode.Textures)
                 {
-                    currentMaterial = MaterialUtils.GetGltfMeshMaterial(currentDocument, preferences, mesh, materials, true);
+                    currentMaterial = MaterialUtils.GetGltfMeshMaterial(currentDocument, mesh, materials, true);
                     materials.AddOrUpdateCurrentMaterial(currentMaterial.UniqueId, currentMaterial, true);
                 }
 
@@ -470,9 +457,9 @@ namespace Common_glTF_Exporter.Core
 
                     GLTFExportUtils.AddVerticesAndFaces(currentVertices.CurrentItem, currentGeometry.CurrentItem, ptsTransformed);
 
-                    if (preferences.normals)
+                    if (Exporter.exportOptions.Normals)
                     {
-                        GLTFExportUtils.AddRPCNormals(preferences, triangle, currentGeometry.CurrentItem);
+                        GLTFExportUtils.AddRPCNormals(triangle, currentGeometry.CurrentItem);
                     }
                 }
             }

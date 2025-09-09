@@ -2,7 +2,6 @@
 {
     using Autodesk.Revit.DB;
     using Common_glTF_Exporter.Core;
-    using Common_glTF_Exporter.Windows.MainWindow;
     using Revit_glTF_Exporter;
     using System.Collections.Generic;
 
@@ -22,13 +21,13 @@
             }
         }
 
-        public static GLTFMaterial GetGltfMeshMaterial(Document doc, Preferences preferences, Mesh mesh, IndexedDictionary<GLTFMaterial> materials, bool doubleSided)
+        public static GLTFMaterial GetGltfMeshMaterial(Document doc, Mesh mesh, IndexedDictionary<GLTFMaterial> materials, bool doubleSided)
         {
             GLTFMaterial gl_mat = new GLTFMaterial();
 
             Material material = GetMeshMaterial(doc, mesh);
 
-            if (preferences.materials == MaterialsEnum.materials || preferences.materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Materials || Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (material == null)
                 {

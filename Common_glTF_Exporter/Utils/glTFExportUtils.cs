@@ -6,7 +6,6 @@
         using Autodesk.Revit.DB;
         using Common_glTF_Exporter.Core;
         using Common_glTF_Exporter.Model;
-        using Common_glTF_Exporter.Windows.MainWindow;
         using Revit_glTF_Exporter;
 
         public class GLTFExportUtils
@@ -72,7 +71,7 @@
                 vertexIntObj.AddOrUpdateCurrent(vertex_key, new VertexLookupIntObject());
             }
 
-            public static void AddRPCNormals(Preferences preferences, MeshTriangle triangle, GeometryDataObject geomDataObj)
+            public static void AddRPCNormals(MeshTriangle triangle, GeometryDataObject geomDataObj)
             {
                 XYZ normal = GeometryUtils.GetNormal(triangle);
 
@@ -106,7 +105,6 @@
                 GeometryDataObject geomData,
                 string name,
                 long elementId,
-                Preferences preferences,
                 GLTFMaterial material,
                 List<GLTFImage> images,
                 List<GLTFTexture> textures)
@@ -125,12 +123,12 @@
 
             byteOffset = GLTFBinaryDataUtils.ExportVertices(bufferIdx, byteOffset, geomData, bufferData, bufferViews, accessors, out int sizeOfVec3View, out int elementsPerVertex);
 
-            if (preferences.normals)
+            if (Exporter.exportOptions.Normals)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportNormals(bufferIdx, byteOffset, geomData, bufferData, bufferViews, accessors);
             }  
 
-            if (preferences.materials == MaterialsEnum.textures &&
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures &&
                 material.pbrMetallicRoughness?.baseColorTexture != null && geomData.Uvs.Count != 0)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportImageBuffer(bufferIdx, byteOffset, material, images, textures, bufferData, bufferViews);
@@ -138,7 +136,7 @@
                 
             }
 
-            if (preferences.batchId)
+            if (Exporter.exportOptions.BatchId)
             {
                 byteOffset = GLTFBinaryDataUtils.ExportBatchId(bufferIdx, byteOffset, sizeOfVec3View, elementsPerVertex, elementId, geomData, bufferData, bufferViews, accessors);
             }

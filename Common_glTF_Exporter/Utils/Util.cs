@@ -5,7 +5,7 @@ namespace Revit_glTF_Exporter
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.DB;
-    using Common_glTF_Exporter.Windows.MainWindow;
+    using Common_glTF_Exporter;
 
     public class Util
     {
@@ -69,17 +69,9 @@ namespace Revit_glTF_Exporter
         /// </summary>
         /// <param name="preferences">User preferences.</param>
         /// <returns>Converted value.</returns>
-        public static double ConvertFeetToUnitTypeId(Preferences preferences)
+        public static double ConvertFeetToUnitTypeId()
         {
-            #if REVIT2019 || REVIT2020
-
-            return UnitUtils.Convert(1, DisplayUnitType.DUT_DECIMAL_FEET, preferences.units);
-
-            #else
-
-            return UnitUtils.Convert(1, UnitTypeId.Feet, preferences.units);
-
-            #endif
+            return UnitUtils.Convert(1, UnitTypeId.Feet, Exporter.exportOptions.Units);
         }
 
         public static float[] GetVec3MinMax(IEnumerable<float> vec3)
@@ -168,41 +160,7 @@ namespace Revit_glTF_Exporter
             {
                 return NullStr;
             }
-
-            // For a wall, the element name equals the wall type name, which is equivalent to the family name ...
-            FamilyInstance fi = e as FamilyInstance;
-
-            ElementDescriptionStrBuilder.Append(e.GetType().Name);
-            ElementDescriptionStrBuilder.Append(SpaceStr);
-
-            if (e.Category != null)
-            {
-                ElementDescriptionStrBuilder.Append(e.Category.Name);
-                ElementDescriptionStrBuilder.Append(SpaceStr);
-            }
-
-            if (fi != null)
-            {
-                ElementDescriptionStrBuilder.Append(fi.Symbol.Family.Name);
-                ElementDescriptionStrBuilder.Append(SpaceStr);
-
-                if (!e.Name.Equals(fi.Symbol.Name))
-                {
-                    ElementDescriptionStrBuilder.Append(fi.Symbol.Name);
-                    ElementDescriptionStrBuilder.Append(SpaceStr);
-                }
-            }
-
-            ElementDescriptionStrBuilder.Append(LessSignStr);
-            #if REVIT2026
-            ElementDescriptionStrBuilder.Append(e.Id.Value);
-            #else
-            ElementDescriptionStrBuilder.Append(e.Id.IntegerValue);
-            #endif
-            ElementDescriptionStrBuilder.Append(SpaceStr);
-            ElementDescriptionStrBuilder.Append(e.Name);
-            ElementDescriptionStrBuilder.Append(GreaterSignStr);
-
+            ElementDescriptionStrBuilder.Append(e.UniqueId);
             return ElementDescriptionStrBuilder.ToString();
         }
 

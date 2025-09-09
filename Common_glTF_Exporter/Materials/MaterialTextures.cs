@@ -1,19 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
-using Revit_glTF_Exporter;
-using Common_glTF_Exporter.Materials;
-using Common_glTF_Exporter.Model;
-using System.IO.Ports;
-using System.Windows.Controls;
-using System.Windows.Media.Media3D;
 using Material = Autodesk.Revit.DB.Material;
-using System;
-using Common_glTF_Exporter.Utils;
-using System.Diagnostics;
 
 namespace Common_glTF_Exporter.Materials
 {

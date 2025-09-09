@@ -95,7 +95,7 @@ namespace Common_glTF_Exporter.Materials
                     }
 
                     // Otherwise, search each base path
-                    foreach (string basePath in MainWindow.TexturePaths)
+                    foreach (string basePath in Exporter.TexturePaths)
                     {
                         string candidatePath = Path.Combine(basePath, relativeOrAbsolutePath);
                         string fullPath = Path.GetFullPath(candidatePath);

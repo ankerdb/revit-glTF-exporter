@@ -267,6 +267,4 @@ __pycache__/
 process.yml
 GltfInstaller/glTFExporter.exe
 
-GltfInstaller/wix/GltfInstaller.g.wxs
-*.exe
-*.msi
+Distribution/

@@ -2,7 +2,6 @@
 {
     using System;
     using Autodesk.Revit.DB;
-    using Common_glTF_Exporter.Windows.MainWindow;
     using Revit_glTF_Exporter;
 
     /// <summary>

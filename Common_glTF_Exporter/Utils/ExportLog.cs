@@ -6,28 +6,46 @@ namespace Common_glTF_Exporter.Utils
 {
     public class ExportLog
     {
-        private static readonly string logFilePath = Path.Combine(Links.configDir, "leia_log.txt");
+        private static string logFilePath => Path.Combine(Exporter.exportOptions.TempDirectory, Exporter.exportOptions.TxtFileName);
 
         public static void StartLog()
         {
-            if (!Directory.Exists(Links.configDir))
+            try
             {
-                Directory.CreateDirectory(Links.configDir);
+                using (var writer = File.CreateText(logFilePath))
+                {
+                    writer.WriteLine($"Convert to GLB started at {DateTime.Now}");
+                }
             }
-            File.WriteAllText(logFilePath, $"[START] Export started at {DateTime.Now}\n");
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error writing to log: {ex.Message}");
+            }
         }
 
         public static void EndLog()
         {
-            File.AppendAllText(logFilePath, $"[END] Export ended at {DateTime.Now}\n");
+            try
+            {
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine($"Convert to GLB ended at {DateTime.Now}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error writing to log: {ex.Message}");
+            }
         }
 
         public static void Write(string message)
         {
             try
             {
-                string timestampedMessage = $"[{DateTime.Now:HH:mm:ss}] {message}\n";
-                File.AppendAllText(logFilePath, timestampedMessage, Encoding.UTF8);
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine(message);
+                }
             }
             catch (Exception ex)
             {
@@ -39,8 +57,11 @@ namespace Common_glTF_Exporter.Utils
         {
             try
             {
-                string message = $"[ERROR] {DateTime.Now:HH:mm:ss} - {ex.Message}\n{ex.StackTrace}\n";
-                File.AppendAllText(logFilePath, message, Encoding.UTF8);
+                using (var writer = File.AppendText(logFilePath))
+                {
+                    writer.WriteLine($"Error: {ex.Message}");
+                    writer.WriteLine(ex.StackTrace);
+                }
             }
             catch (Exception logEx)
             {
@@ -48,10 +69,6 @@ namespace Common_glTF_Exporter.Utils
             }
         }
 
-        public string GetLogPath()
-        {
-            return logFilePath;
-        }
     }
 
 }

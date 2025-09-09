@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Autodesk.Revit.DB;
 using Common_glTF_Exporter.Core;
-using Common_glTF_Exporter.Windows.MainWindow;
 using Newtonsoft.Json;
 using Revit_glTF_Exporter;
 
@@ -21,8 +20,7 @@ namespace Common_glTF_Exporter.Export
             List<GLTFBufferView> bufferViews,
             List<GLTFAccessor> accessors,
             List<GLTFTexture> textures,
-            List<GLTFImage> images,
-            Preferences preferences)
+            List<GLTFImage> images)
         {
 
             GLTF model = new GLTF
@@ -33,7 +31,7 @@ namespace Common_glTF_Exporter.Export
                 meshes = meshes,
             };
 
-            if (preferences.materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 model.extensionsUsed = new List<string> { "KHR_texture_transform" };
             }
@@ -43,7 +41,7 @@ namespace Common_glTF_Exporter.Export
                 model.materials = materials;
             }
 
-            if (preferences.materials == MaterialsEnum.textures)
+            if (Exporter.exportOptions.Materials == Anker.GLTF.Exporter.AnkerGltfExporter.MaterialsExportMode.Textures)
             {
                 if (textures.Any())
                 {

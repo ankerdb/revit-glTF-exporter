@@ -7,7 +7,6 @@ using Common_glTF_Exporter.Export;
 using Common_glTF_Exporter.Model;
 using Common_glTF_Exporter.Transform;
 using Common_glTF_Exporter.Utils;
-using Common_glTF_Exporter.Windows.MainWindow;
 using Revit_glTF_Exporter;
 using Transform = Autodesk.Revit.DB.Transform;
 using Common_glTF_Exporter.EportUtils;
@@ -18,7 +17,7 @@ namespace Common_glTF_Exporter.EportUtils
     public static class ElementValidations
     {
         public static bool ShouldSkipElement(Element currentElement, Autodesk.Revit.DB.View currentView,
-            Document currentDocument, Preferences preferences, IndexedDictionary<GLTFNode> nodes)
+            Document currentDocument, IndexedDictionary<GLTFNode> nodes)
         {
             if (currentElement == null)
             {
@@ -26,7 +25,7 @@ namespace Common_glTF_Exporter.EportUtils
             }
 
             bool isHiddenOrLocked = !Util.CanBeLockOrHidden(currentElement, currentView, currentDocument.IsFamilyDocument);
-            bool isLevelToSkip = currentElement is Level && !preferences.levels;
+            bool isLevelToSkip = currentElement is Level && !Exporter.exportOptions.Levels;
             bool isAlreadyProcessed = nodes.Contains(currentElement.UniqueId);
 
             if (isHiddenOrLocked || isLevelToSkip || isAlreadyProcessed)
@@ -44,14 +43,8 @@ namespace Common_glTF_Exporter.EportUtils
             if (currentElement == null)
                 return true;
 
-            #if REVIT2026
-            if (currentElement.Id.Value != elemId.Value)
+            if (CompUnits.GetIdValue(currentElement.Id) != CompUnits.GetIdValue(elemId))
                 return true;
-            #else
-            if (currentElement.Id.IntegerValue != elemId.IntegerValue)
-                return true;
-            #endif
-
 
             if (currentVertices == null || !currentVertices.List.Any())
                 return true;
